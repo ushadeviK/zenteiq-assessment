@@ -1,50 +1,43 @@
-# Fixes Summary
+ Dashboard Fixes
 
-Name:
-Registration number:
-Time spent:
+- Fixed application loading and rendering issues.
+- Corrected sidebar navigation between Dashboard, Assignments, and Announcements.
+- Improved student search to support case-insensitive matching and trimmed whitespace.
+- Fixed department filtering logic.
+- Corrected project progress calculations and display.
+- Fixed Open Assignments section to show only incomplete assignments.
+- Corrected average project progress calculation.
+- Fixed student details modal opening behavior.
 
-## Bugs fixed
+Assignment Planner Fixes
 
-For each item, include the broken behavior, files changed, and how you verified the fix.
+- Fixed assignment creation form state handling.
+- Prevented form fields from overwriting each other while typing.
+- Corrected required field validation.
+- Reset form after successful assignment creation.
+- Fixed assignment completion toggle to update UI immediately.
+- Improved assignment sorting behavior.
 
-1. Issue:
-   Files changed:
-   Explanation:
-   Verification:
+Theme & Persistence
 
-2. Issue:
-   Files changed:
-   Explanation:
-   Verification:
+- Fixed light/dark theme switching.
+- Added theme persistence using localStorage.
+- Restored saved theme after page refresh.
 
-3. Issue:
-   Files changed:
-   Explanation:
-   Verification:
+Responsive UI Improvements
 
-## UI improvements made
+- Fixed mobile sidebar open/close behavior.
+- Improved responsiveness for mobile, tablet, and desktop screens.
+- Reduced layout overflow issues in tables and cards.
 
-Only list improvements that directly support the assignment requirements.
+Code Quality Improvements
 
--
--
--
+- Removed unused imports and unnecessary console logs.
+- Avoided direct state mutation.
+- Improved React key usage.
+- Added accessibility improvements for forms and modal interactions.
 
-## Out-of-scope changes
+Bonus Improvements
 
-List any intentional refactors or behavior changes that were not directly required. Write `None` if you did not make any.
-
--
-
-## Testing performed
-
-- Desktop:
-- Tablet:
-- Mobile:
-- Browser console checked:
-- Refresh/persistence checked:
-
-## Known limitations
-
--
+- Added keyboard support to close the student modal using Escape.
+- Improved empty states across dashboard sections.
