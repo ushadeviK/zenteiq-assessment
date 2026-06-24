@@ -1,3 +1,5 @@
+<img width="1506" height="701" alt="Screenshot 2026-06-24 164930" src="https://github.com/user-attachments/assets/74116580-5e26-4436-b325-f4dd561ede12" />
+<img width="1517" height="698" alt="Screenshot 2026-06-24 164852" src="https://github.com/user-attachments/assets/8a9091b0-d709-4d44-8bbb-c570717684e7" />
  Dashboard Fixes
 
 - Fixed application loading and rendering issues.
