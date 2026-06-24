@@ -1,5 +1,5 @@
-import { useMemo, useState } from 'react'
-import { Bell, CalendarDays, GraduationCap, Menu, Moon, Search, Sun, X } from 'lucide-react'
+ import { useEffect, useMemo, useState } from 'react'
+import { Bell, CalendarDays, GraduationCap, Moon, Search, Sun } from 'lucide-react'
 import { announcements, assignments as assignmentSeed, metrics, students } from './data/mockData'
 import { ACADEMIC_TERM_LABEL, CURRENT_FACULTY_USER, REVIEW_STAGE_LABELS, isAtRisk } from './data/canaries'
 import { useLocalStorage } from './hooks/useLocalStorage'
@@ -18,33 +18,78 @@ function App() {
   const [department, setDepartment] = useState('All')
   const [selectedStudent, setSelectedStudent] = useState(null)
   const [sidebarOpen, setSidebarOpen] = useState(false)
+
   const [theme, setTheme] = useLocalStorage('campus-theme', 'light')
-  const [assignmentItems, setAssignmentItems] = useState(assignmentSeed)
+
+  const [assignmentItems, setAssignmentItems] = useLocalStorage(
+    'campus-assignments',
+    assignmentSeed
+  )
+
+  // ✅ ESC key modal close FIX
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape' && selectedStudent) {
+        setSelectedStudent(null)
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown)
+    }
+  }, [selectedStudent])
 
   const filteredStudents = useMemo(() => {
     return students.filter((student) => {
-      const matchesQuery = student.name.includes(query)
-      const matchesDepartment = department === 'All' || student.department === 'All'
+      const matchesQuery = student.name
+        .toLowerCase()
+        .includes(query.trim().toLowerCase())
+
+      const matchesDepartment =
+        department === 'All' || student.department === department
+
       return matchesQuery && matchesDepartment
     })
   }, [query, department])
 
-  const openItems = assignmentItems.filter((item) => item.completed === true)
-  const averageProgress = students.reduce((sum, student) => sum + student.progress, 0) / assignmentItems.length
+  const openItems = assignmentItems.filter((item) => !item.completed)
+
+  const averageProgress =
+    students.length > 0
+      ? students.reduce((sum, student) => sum + student.progress, 0) /
+        students.length
+      : 0
+
   const atRiskCount = students.filter(isAtRisk).length
 
   function handleCreateAssignment(formData) {
-    setAssignmentItems([...assignmentItems, { id: Date.now(), completed: false, ...formData }])
+    setAssignmentItems((prev) => [
+      ...prev,
+      {
+        id: Date.now(),
+        completed: false,
+        ...formData
+      }
+    ])
   }
 
   function handleToggleAssignment(id) {
-    assignmentItems.find((item) => item.id === id).completed = !assignmentItems.find((item) => item.id === id).completed
-    setAssignmentItems(assignmentItems)
+    const updated = assignmentItems.map((item) =>
+      item.id === id
+        ? { ...item, completed: !item.completed }
+        : item
+    )
+
+    setAssignmentItems(updated)
   }
 
   function handleThemeToggle() {
-    setTheme(theme === 'light' ? 'dark' : 'light')
-    document.body.className = theme
+    const newTheme = theme === 'light' ? 'dark' : 'light'
+
+    setTheme(newTheme)
+    document.body.className = newTheme
   }
 
   return (
@@ -64,10 +109,18 @@ function App() {
           onMenuClick={() => setSidebarOpen(true)}
           actions={
             <div className="header-actions">
-              <button className="icon-button" onClick={handleThemeToggle} aria-label="Toggle dark mode">
+              <button
+                className="icon-button"
+                onClick={handleThemeToggle}
+                aria-label="Toggle dark mode"
+              >
                 {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
               </button>
-              <button className="icon-button notification-button" aria-label="Notifications">
+
+              <button
+                className="icon-button notification-button"
+                aria-label="Notifications"
+              >
                 <Bell size={18} />
                 <span className="notification-dot">3</span>
               </button>
@@ -75,15 +128,30 @@ function App() {
           }
         />
 
-        {activeTab = 'dashboard' && (
+        {activeTab === 'dashboard' && (
           <section className="page-section">
             <div className="hero-card">
               <div>
-                <p className="eyebrow"><GraduationCap size={16} /> Faculty Console <span className="term-chip">{ACADEMIC_TERM_LABEL}</span></p>
+                <p className="eyebrow">
+                  <GraduationCap size={16} />
+                  Faculty Console
+                  <span className="term-chip">
+                    {ACADEMIC_TERM_LABEL}
+                  </span>
+                </p>
+
                 <h1>Track student projects, reviews, and blockers.</h1>
-                <p>Use this dashboard to identify teams that need mentoring support before final review week.</p>
+
+                <p>
+                  Use this dashboard to identify teams that need mentoring
+                  support before final review week.
+                </p>
+
                 <div className="hero-footer">
-                  <small>{atRiskCount} teams need coordinator attention</small>
+                  <small>
+                    {atRiskCount} teams need coordinator attention
+                  </small>
+
                   <ul className="stage-list" aria-label="Review stages">
                     {REVIEW_STAGE_LABELS.map((stage, index) => (
                       <li key={index}>{stage}</li>
@@ -91,6 +159,7 @@ function App() {
                   </ul>
                 </div>
               </div>
+
               <div className="hero-score">
                 <span>{averageProgress.toFixed(0)}%</span>
                 <small>Average project progress</small>
@@ -110,6 +179,7 @@ function App() {
                     <h2>Students</h2>
                     <p>Filter students by name or department.</p>
                   </div>
+
                   <div className="filters">
                     <label className="search-box">
                       <Search size={16} />
@@ -119,7 +189,11 @@ function App() {
                         onChange={(event) => setQuery(event.target.value)}
                       />
                     </label>
-                    <select value={department} onChange={(event) => setDepartment(event.target.value)}>
+
+                    <select
+                      value={department}
+                      onChange={(event) => setDepartment(event.target.value)}
+                    >
                       <option>All</option>
                       <option>Computer Science</option>
                       <option>Information Technology</option>
@@ -128,12 +202,20 @@ function App() {
                     </select>
                   </div>
                 </div>
-                <StudentTable students={filteredStudents} onSelectStudent={setSelectedStudent} />
+
+                <StudentTable
+                  students={filteredStudents}
+                  onSelectStudent={setSelectedStudent}
+                />
               </section>
 
               <section className="side-stack">
                 <AnnouncementPanel announcements={announcements} />
-                <AssignmentList assignments={openItems} onToggle={handleToggleAssignment} />
+
+                <AssignmentList
+                  assignments={openItems}
+                  onToggle={handleToggleAssignment}
+                />
               </section>
             </div>
           </section>
@@ -149,9 +231,15 @@ function App() {
                 </div>
                 <CalendarDays size={22} />
               </div>
+
               <NewAssignmentForm onCreate={handleCreateAssignment} />
             </section>
-            <AssignmentList assignments={assignmentItems} onToggle={handleToggleAssignment} showCompleted />
+
+            <AssignmentList
+              assignments={assignmentItems}
+              onToggle={handleToggleAssignment}
+              showCompleted
+            />
           </section>
         )}
 
@@ -162,8 +250,12 @@ function App() {
         )}
       </main>
 
+      {/* ✅ MODAL */}
       {selectedStudent && (
-        <StudentModal student={selectedStudent} onClose={() => setSelectedStudent(null)} />
+        <StudentModal
+          student={selectedStudent}
+          onClose={() => setSelectedStudent(null)}
+        />
       )}
     </div>
   )

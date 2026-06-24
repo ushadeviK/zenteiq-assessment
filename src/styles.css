@@ -1,4 +1,4 @@
-:root {
+ :root {
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   color: #162033;
   background: #f4f7fb;
@@ -699,4 +699,192 @@ select,
   .metrics-grid {
     grid-template-columns: 1fr 1fr;
   }
+}
+/* =========================
+   DARK MODE COMPLETE FIX
+   ========================= */
+
+.theme-dark {
+  background: #0d1220;
+  color: #ffffff;
+}
+
+.theme-dark .app-shell {
+  background: #0d1220;
+  color: #ffffff;
+}
+
+.theme-dark .panel,
+.theme-dark .metric-card,
+.theme-dark .app-header,
+.theme-dark .hero-card,
+.theme-dark .student-modal,
+.theme-dark .assignment-card,
+.theme-dark .announcement-card,
+.theme-dark .search-box {
+  background: #161d2f;
+  color: #ffffff;
+  border-color: #30384c;
+}
+
+/* Headings */
+.theme-dark h1,
+.theme-dark h2,
+.theme-dark h3,
+.theme-dark h4,
+.theme-dark h5,
+.theme-dark h6,
+.theme-dark strong {
+  color: #ffffff;
+}
+
+/* Normal text */
+.theme-dark p,
+.theme-dark span,
+.theme-dark small,
+.theme-dark td,
+.theme-dark th,
+.theme-dark label,
+.theme-dark li,
+.theme-dark div {
+  color: #e5e7eb;
+}
+
+/* Muted text */
+.theme-dark .metric-label,
+.theme-dark .student-cell small,
+.theme-dark .assignment-card span,
+.theme-dark .announcement-card small,
+.theme-dark .hero-card p,
+.theme-dark .panel p,
+.theme-dark .app-header p,
+.theme-dark .modal-stats span,
+.theme-dark .detail-block span {
+  color: #cbd5e1;
+}
+
+/* Inputs */
+.theme-dark input,
+.theme-dark select,
+.theme-dark textarea {
+  background: #101827;
+  color: #ffffff;
+  border: 1px solid #30384c;
+}
+
+.theme-dark input::placeholder,
+.theme-dark textarea::placeholder {
+  color: #94a3b8;
+}
+
+/* Search box */
+.theme-dark .search-box {
+  background: #101827;
+  border-color: #30384c;
+}
+
+.theme-dark .search-box input {
+  background: transparent;
+  color: #ffffff;
+}
+
+/* Table */
+.theme-dark .student-table {
+  color: #ffffff;
+}
+
+.theme-dark .student-table th {
+  color: #cbd5e1;
+}
+
+.theme-dark .student-table td {
+  border-top: 1px solid #30384c;
+}
+
+.theme-dark .student-table tbody tr:hover {
+  background: #1e293b;
+}
+
+/* Hero Score */
+.theme-dark .hero-score {
+  background: #1e293b;
+}
+
+.theme-dark .hero-score small {
+  color: #cbd5e1;
+}
+
+/* Stage chips */
+.theme-dark .stage-list li {
+  background: #1e293b;
+  color: #ffffff;
+}
+
+/* Buttons */
+.theme-dark .icon-button {
+  background: #1e293b;
+  color: #ffffff;
+  border-color: #30384c;
+}
+
+.theme-dark .primary-button {
+  background: #5b6cff;
+  color: #ffffff;
+}
+
+/* Assignment form */
+.theme-dark .assignment-form label {
+  color: #ffffff;
+}
+
+/* Modal */
+.theme-dark .modal-stats div,
+.theme-dark .detail-block {
+  background: #1e293b;
+  border-color: #30384c;
+}
+
+/* Empty state */
+.theme-dark .empty-state {
+  color: #cbd5e1;
+}
+
+/* Dark Mode Blue Text Fix */
+
+.theme-dark .eyebrow,
+.theme-dark .hero-score span,
+.theme-dark .term-chip,
+.theme-dark .pin-badge,
+.theme-dark .avatar,
+.theme-dark .complete-button,
+.theme-dark .status-info,
+.theme-dark .status-success,
+.theme-dark .status-warning,
+.theme-dark .status-danger,
+.theme-dark .trend-positive,
+.theme-dark .trend-negative {
+  color: #ffffff !important;
+}
+
+.theme-dark .term-chip,
+.theme-dark .pin-badge,
+.theme-dark .status-info,
+.theme-dark .status-success,
+.theme-dark .status-warning,
+.theme-dark .status-danger {
+  background: #334155 !important;
+  border-color: #475569 !important;
+}
+
+.theme-dark .avatar {
+  background: #334155 !important;
+}
+
+.theme-dark .hero-score span {
+  color: #ffffff !important;
+}
+
+
+.theme-dark a {
+  color: #ffffff !important;
 }

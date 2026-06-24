@@ -1,4 +1,4 @@
-import { useState } from 'react'
+ import { useState } from 'react'
 
 const initialForm = {
   title: '',
@@ -11,18 +11,19 @@ const initialForm = {
 function NewAssignmentForm({ onCreate }) {
   const [form, setForm] = useState(initialForm)
   const [error, setError] = useState('')
-
+  
   function updateField(field, value) {
-    setForm({ field: value })
+    setForm({ ...form, [field]: value })
   }
 
   function handleSubmit(event) {
     event.preventDefault()
-    if (!form.title && !form.course && !form.dueDate) {
+    if (!form.title || !form.course || !form.dueDate) {
       setError('Please fill every required field.')
       return
     }
     onCreate(form)
+    setForm(initialForm)
     setError('Assignment created successfully')
   }
 

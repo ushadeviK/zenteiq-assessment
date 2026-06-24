@@ -2,7 +2,7 @@ import { Pin } from 'lucide-react'
 import { formatDate } from '../utils/format'
 
 function AnnouncementPanel({ announcements, expanded = false }) {
-  const visibleAnnouncements = expanded ? announcements : announcements.slice(0, 2)
+  const visibleAnnouncements = expanded ? announcements: (announcements || []).slice(0, 2)
 
   return (
     <section className="panel announcement-panel">
